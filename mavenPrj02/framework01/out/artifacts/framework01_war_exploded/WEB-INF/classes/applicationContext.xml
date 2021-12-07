@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!--<bean id="coffeeBean" class="edu.soft2.ioc.coffee.CoffeeBean">
+        <property name="flavor">
+            <value>康司令</value>
+        </property>
+    </bean>
+    <bean id="espressoBean" class="edu.soft2.ioc.coffee.EspressoBean">
+        <property name="flavor">
+            <value>(意大利)浓缩</value>
+        </property>
+    </bean>
+    <bean id="mocaBean" class="edu.soft2.ioc.coffee.MocaBean" scope="singleton">
+        <property name="flavor"><value>摩卡</value></property>
+    </bean>
+    <bean id="coffeeMachine" class="edu.soft2.ioc.coffee.CoffeeMachine">
+        <property name="color" value="红"></property>
+        <property name="coffeeBean" ref="mocaBean"></property>
+    </bean>
+    <bean id="mocaBean" class="edu.soft2.ioc.coffee.MocaBean">
+        <property name="flavor" value="摩卡"></property>
+    </bean>-->
+
+
+    <!--<bean id="colorInk" class="edu.soft2.ioc.prink.ColorInk">
+        &lt;!&ndash;将class对应的类的对象，作为一个bean对象放入IOC容器中,由其负责管理（创建对象）&ndash;&gt;
+        <property name="type" value="彩色"></property>
+    </bean>
+    <bean id="greyInk" class="edu.soft2.ioc.prink.ColorInk">
+        <property name="type" value="灰色"></property>
+    </bean>
+    <bean id="printer" class="edu.soft2.ioc.prink.Printer">
+        <property name="ink" ref="colorInk"></property>
+        <property name="paper" ref="b5Paper"></property>
+    </bean>
+    <bean id="a4Paper" class="edu.soft2.ioc.prink.A4Paper">
+        <property name="size" value="A4"></property>
+    </bean>
+    <bean id="b5Paper" class="edu.soft2.ioc.prink.B5Paper">
+        <property name="size" value="B5"></property>
+    </bean>-->
+
+    <context:annotation-config />
+    <context:component-scan base-package="edu.soft2"/>
+    <aop:aspectj-autoproxy/>
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
+
+    <!--配置目标类【即要实现哪个类】-->
+<!--    <bean id="helloworldService" class="edu.soft2.service.impl.HelloworldService"/>-->
+<!--    &lt;!&ndash;配置切面类&ndash;&gt;-->
+<!--    <bean id="helloworldAspect" class="edu.soft2.aop.HellowordAspect"/>-->
+
+    <aop:config proxy-target-class="true">
+        <!--缺-->
+        <aop:pointcut expression="execution(* edu.soft2.service..*.*(..))" id="helloworldPointcut"/>
+        <aop:aspect ref="userAop">
+            <aop:before pointcut-ref="helloworldPointcut" method="pointA"/>
+            <aop:after pointcut-ref="helloworldPointcut" method="pointA"/>
+        </aop:aspect>
+    </aop:config>
+</beans>
